@@ -5,8 +5,8 @@
 #include <gui/view_dispatcher.h>
 #include <gui/scene_manager.h>
 #include <gui/modules/widget.h>
-#include <gui/modules/menu.h>
 #include <gui/modules/submenu.h>
+#include <gui/modules/loading.h>
 #include <gui/modules/variable_item_list.h>
 #include <gui/modules/text_input.h>
 
@@ -17,6 +17,7 @@
 #include "scenes/loratalk_scene.h"
 
 typedef enum {
+    LoRaTalkView_Loading,
     LoRaTalkView_MainMenu,
     LoRaTalkView_Config,
     LoRaTalkView_Config_Address,
@@ -52,6 +53,7 @@ typedef enum {
 typedef struct {
     SceneManager* scene_manager;
     ViewDispatcher* view_dispatcher;
+    Loading* loading;
     Submenu* main_menu;
     VariableItemList* config_view;
 

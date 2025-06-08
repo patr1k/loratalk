@@ -26,6 +26,7 @@ void loratalk_app_scene_manager_init(LoRaTalkApp* app) {
 void loratalk_app_view_dispatcher_init(LoRaTalkApp* app) {
     app->view_dispatcher = view_dispatcher_alloc();
 
+    app->loading = loading_alloc();
     app->main_menu = submenu_alloc();
     app->config_view = variable_item_list_alloc();
 
@@ -37,6 +38,8 @@ void loratalk_app_view_dispatcher_init(LoRaTalkApp* app) {
     view_dispatcher_set_tick_event_callback(
         app->view_dispatcher, loratalk_app_tick_event_callback, 100);
 
+    view_dispatcher_add_view(
+        app->view_dispatcher, LoRaTalkView_Loading, loading_get_view(app->loading));
     view_dispatcher_add_view(
         app->view_dispatcher, LoRaTalkView_MainMenu, submenu_get_view(app->main_menu));
     view_dispatcher_add_view(
@@ -57,9 +60,11 @@ LoRaTalkApp* loratalk_app_alloc() {
 
 void loratalk_app_free(LoRaTalkApp* app) {
     scene_manager_free(app->scene_manager);
+    view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_Loading);
     view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_MainMenu);
     view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_Config);
     view_dispatcher_free(app->view_dispatcher);
+    loading_free(app->loading);
     submenu_free(app->main_menu);
     variable_item_list_free(app->config_view);
     free(app);

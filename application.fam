@@ -6,7 +6,7 @@ App(
     apptype=FlipperAppType.EXTERNAL,
     entry_point="loratalk_app",
     stack_size=2 * 1024,
-    fap_category="subghz",
+    fap_category="Sub-GHz",
     # Optional values
     fap_version="0.1",
     fap_icon="loratalk.png",  # 10x10 1-bit PNG

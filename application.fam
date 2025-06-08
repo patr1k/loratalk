@@ -1,0 +1,17 @@
+# For details & more options, see documentation/AppManifests.md in firmware repo
+
+App(
+    appid="loratalk",  # Must be unique
+    name="LoRa Talk",  # Displayed in menus
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="loratalk_app",
+    stack_size=2 * 1024,
+    fap_category="subghz",
+    # Optional values
+    fap_version="0.1",
+    fap_icon="loratalk.png",  # 10x10 1-bit PNG
+    fap_description="A simple app",
+    fap_author="patr1k",
+    fap_weburl="https://github.com/patr1k/loratalk",
+    fap_icon_assets="images",  # Image assets to compile for this application
+)

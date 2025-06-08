@@ -52,7 +52,7 @@ typedef enum {
 typedef struct {
     SceneManager* scene_manager;
     ViewDispatcher* view_dispatcher;
-    Menu* main_menu;
+    Submenu* main_menu;
     VariableItemList* config_view;
 
     uint16_t address;

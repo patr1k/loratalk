@@ -26,7 +26,7 @@ void loratalk_app_scene_manager_init(LoRaTalkApp* app) {
 void loratalk_app_view_dispatcher_init(LoRaTalkApp* app) {
     app->view_dispatcher = view_dispatcher_alloc();
 
-    app->main_menu = menu_alloc();
+    app->main_menu = submenu_alloc();
     app->config_view = variable_item_list_alloc();
 
     view_dispatcher_set_event_callback_context(app->view_dispatcher, app);
@@ -38,7 +38,7 @@ void loratalk_app_view_dispatcher_init(LoRaTalkApp* app) {
         app->view_dispatcher, loratalk_app_tick_event_callback, 100);
 
     view_dispatcher_add_view(
-        app->view_dispatcher, LoRaTalkView_MainMenu, menu_get_view(app->main_menu));
+        app->view_dispatcher, LoRaTalkView_MainMenu, submenu_get_view(app->main_menu));
     view_dispatcher_add_view(
         app->view_dispatcher, LoRaTalkView_Config, variable_item_list_get_view(app->config_view));
 }
@@ -50,6 +50,7 @@ LoRaTalkApp* loratalk_app_alloc() {
     loratalk_app_view_dispatcher_init(app);
 
     app->baud_rate = BaudRate_9600;
+    app->address = 14721;
 
     return app;
 }
@@ -59,7 +60,7 @@ void loratalk_app_free(LoRaTalkApp* app) {
     view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_MainMenu);
     view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_Config);
     view_dispatcher_free(app->view_dispatcher);
-    menu_free(app->main_menu);
+    submenu_free(app->main_menu);
     variable_item_list_free(app->config_view);
     free(app);
 }

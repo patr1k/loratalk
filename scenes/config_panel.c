@@ -38,7 +38,7 @@ void loratalk_scene_config_on_enter(void* context) {
 
     VariableItem* address_item = variable_item_list_add(app->config_view, "Address", 1, NULL, app);
 
-    variable_item_set_current_value_index(address_item, app->address);
+    variable_item_set_current_value_index(address_item, 0);
     char address[6];
     itoa(app->address, address, 10);
     variable_item_set_current_value_text(address_item, address);

@@ -55,7 +55,8 @@ typedef struct {
     ViewDispatcher* view_dispatcher;
     Loading* loading;
     Submenu* main_menu;
-    VariableItemList* config_view;
+    VariableItemList* config;
+    TextInput* config_address;
 
     uint16_t address;
     BaudRate baud_rate;

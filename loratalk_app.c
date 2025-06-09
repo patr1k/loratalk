@@ -28,7 +28,8 @@ void loratalk_app_view_dispatcher_init(LoRaTalkApp* app) {
 
     app->loading = loading_alloc();
     app->main_menu = submenu_alloc();
-    app->config_view = variable_item_list_alloc();
+    app->config = variable_item_list_alloc();
+    app->config_address = text_input_alloc();
 
     view_dispatcher_set_event_callback_context(app->view_dispatcher, app);
     view_dispatcher_set_custom_event_callback(
@@ -43,7 +44,11 @@ void loratalk_app_view_dispatcher_init(LoRaTalkApp* app) {
     view_dispatcher_add_view(
         app->view_dispatcher, LoRaTalkView_MainMenu, submenu_get_view(app->main_menu));
     view_dispatcher_add_view(
-        app->view_dispatcher, LoRaTalkView_Config, variable_item_list_get_view(app->config_view));
+        app->view_dispatcher, LoRaTalkView_Config, variable_item_list_get_view(app->config));
+    view_dispatcher_add_view(
+        app->view_dispatcher,
+        LoRaTalkView_Config_Address,
+        text_input_get_view(app->config_address));
 }
 
 LoRaTalkApp* loratalk_app_alloc() {
@@ -63,10 +68,11 @@ void loratalk_app_free(LoRaTalkApp* app) {
     view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_Loading);
     view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_MainMenu);
     view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_Config);
+    view_dispatcher_remove_view(app->view_dispatcher, LoRaTalkView_Config_Address);
     view_dispatcher_free(app->view_dispatcher);
     loading_free(app->loading);
     submenu_free(app->main_menu);
-    variable_item_list_free(app->config_view);
+    variable_item_list_free(app->config);
     free(app);
 }
 

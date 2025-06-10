@@ -7,3 +7,4 @@ dist/*
 .env
 .ufbt
 ufbt
+.DS_Store

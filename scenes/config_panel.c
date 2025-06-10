@@ -1,9 +1,11 @@
 #include "../loratalk_app_i.h"
 
-enum ConfigItem {
+typedef enum {
     ConfigItemAddress,
     ConfigItemFrequency,
-};
+} ConfigItem;
+
+bool on_menu = true;
 
 const char* baud_rates[] =
     {"300", "1200", "4800", "9600", "19200", "28800", "38400", "57600", "115200"};
@@ -11,6 +13,9 @@ const char* bandwidths[] = {"125 KHz", "250 KHz", "500 KHz"};
 const char* coding_rates[] = {"4/5", "4/6", "4/7", "4/8"};
 const char* spreading_factors[] = {"7", "8", "9", "10", "11"};
 const char* preambles[] = {"4", "5", "6", "7", "8"};
+
+char address_input[16];
+VariableItem* address_item;
 
 static void enter_callback(void* context, uint32_t index) {
     furi_assert(context);
@@ -53,12 +58,12 @@ static bool address_validate(const char* text, FuriString* error, void* context)
     return true;
 }
 
-char address_input[16];
-
 static void address_change(void* context) {
     furi_assert(context);
     LoRaTalkApp* app = context;
     app->address = atoi(address_input);
+    variable_item_set_current_value_text(address_item, address_input);
+    on_menu = true;
     view_dispatcher_switch_to_view(app->view_dispatcher, LoRaTalkView_Config);
 }
 
@@ -69,7 +74,7 @@ void loratalk_scene_config_on_enter(void* context) {
 
     variable_item_list_set_enter_callback(app->config, enter_callback, app);
 
-    VariableItem* address_item = variable_item_list_add(app->config, "Address", 1, NULL, app);
+    address_item = variable_item_list_add(app->config, "Address", 1, NULL, app);
 
     variable_item_set_current_value_index(address_item, 0);
     char address[6];
@@ -97,6 +102,7 @@ bool loratalk_scene_config_on_event(void* context, SceneManagerEvent event) {
             text_input_set_header_text(app->config_address, "Address");
             text_input_set_minimum_length(app->config_address, 1);
             text_input_set_validator(app->config_address, address_validate, app);
+            itoa(app->address, address_input, 10);
             text_input_set_result_callback(
                 app->config_address,
                 address_change,
@@ -104,9 +110,20 @@ bool loratalk_scene_config_on_event(void* context, SceneManagerEvent event) {
                 address_input,
                 sizeof(address_input),
                 false);
+            on_menu = false;
             view_dispatcher_switch_to_view(app->view_dispatcher, LoRaTalkView_Config_Address);
+            consumed = true;
             break;
         }
+        break;
+    case SceneManagerEventTypeBack:
+        if(on_menu) {
+            scene_manager_previous_scene(app->scene_manager);
+        } else {
+            on_menu = true;
+            view_dispatcher_switch_to_view(app->view_dispatcher, LoRaTalkView_Config);
+        }
+        consumed = true;
         break;
     default:
         consumed = false;

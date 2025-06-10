@@ -26,7 +26,7 @@ static void baud_rate_change_callback(VariableItem* item) {
     LoRaTalkApp* app = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, baud_rates[index]);
-    app->baud_rate = index;
+    app->baud_rate = atoi(baud_rates[index]);
 }
 
 static bool address_validate(const char* text, FuriString* error, void* context) {
@@ -79,8 +79,15 @@ void loratalk_scene_config_on_enter(void* context) {
     VariableItem* baud_rate_item = variable_item_list_add(
         app->config, "Baud Rate", COUNT_OF(baud_rates), baud_rate_change_callback, app);
 
-    variable_item_set_current_value_index(baud_rate_item, app->baud_rate);
-    variable_item_set_current_value_text(baud_rate_item, baud_rates[app->baud_rate]);
+    uint8_t index = 0;
+    for(uint8_t i = 0; i < COUNT_OF(baud_rates); i++) {
+        if((uint32_t)atoi(baud_rates[i]) == app->baud_rate) {
+            index = i;
+            break;
+        }
+    }
+    variable_item_set_current_value_index(baud_rate_item, index);
+    variable_item_set_current_value_text(baud_rate_item, baud_rates[index]);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, LoRaTalkView_Config);
 }

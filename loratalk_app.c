@@ -57,7 +57,7 @@ LoRaTalkApp* loratalk_app_alloc() {
     loratalk_app_scene_manager_init(app);
     loratalk_app_view_dispatcher_init(app);
 
-    app->baud_rate = BaudRate_9600;
+    app->baud_rate = 115200;
     app->address = 14721;
 
     return app;

@@ -26,18 +26,6 @@ typedef enum {
 } LoRaTalkView;
 
 typedef enum {
-    BaudRate_300,
-    BaudRate_1200,
-    BaudRate_4800,
-    BaudRate_9600,
-    BaudRate_19200,
-    BaudRate_28800,
-    BaudRate_38400,
-    BaudRate_57600,
-    BaudRate_115200,
-} BaudRate;
-
-typedef enum {
     Bandwidth_125KHz,
     Bandwidth_250KHz,
     Bandwidth_500KHz,
@@ -59,5 +47,5 @@ typedef struct {
     TextInput* config_address;
 
     uint16_t address;
-    BaudRate baud_rate;
+    uint32_t baud_rate;
 } LoRaTalkApp;

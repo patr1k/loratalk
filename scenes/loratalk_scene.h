@@ -3,7 +3,7 @@
 #include <gui/scene_manager.h>
 
 // Generate scene id and total number
-#define ADD_SCENE(prefix, name, id) LoRaTalkScene_##id,
+#define ADD_SCENE(prefix, name, id) LoRaTalkScene##id,
 typedef enum {
 #include "loratalk_scene_config.h"
     LoRaTalkSceneCount,

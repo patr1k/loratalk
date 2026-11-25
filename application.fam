@@ -5,12 +5,14 @@ App(
     name="LoRa Talk",  # Displayed in menus
     apptype=FlipperAppType.EXTERNAL,
     entry_point="loratalk_app",
-    stack_size=2 * 1024,
+    stack_size=4 * 1024,
+    requires=["gui", "storage", "notification"],
+    # tests/ and tools/ are built for the PC / Arduino, not the Flipper
+    sources=["*.c", "!tests", "!tools"],
     fap_category="Sub-GHz",
-    # Optional values
-    fap_version="0.1",
+    fap_version="1.0",
     fap_icon="loratalk.png",  # 10x10 1-bit PNG
-    fap_description="A simple app",
+    fap_description="Text chat over a REYAX RYLR998 LoRa module connected to the GPIO UART",
     fap_author="patr1k",
     fap_weburl="https://github.com/patr1k/loratalk",
     fap_icon_assets="images",  # Image assets to compile for this application

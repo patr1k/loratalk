@@ -8,3 +8,4 @@ dist/*
 .ufbt
 ufbt
 .DS_Store
+tests/test_lora
